@@ -103,6 +103,7 @@ export default function Chat() {
           <Form {...form}>
             <form
               onSubmit={handleSubmit}
+              autoComplete="off"
               className="grid w-full grid-cols-12 gap-2 p-4 px-3 border rounded-lg md:px-6 focus-within:shadow-sm"
             >
               <FormField
@@ -115,6 +116,7 @@ export default function Chat() {
                         disabled={isLoading}
                         onChange={handleInputChange}
                         value={input}
+                        autoCorrect="off"
                       />
                     </FormControl>
                   </FormItem>
