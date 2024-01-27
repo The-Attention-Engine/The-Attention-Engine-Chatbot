@@ -1,11 +1,11 @@
 import { UserButton } from "@clerk/nextjs";
 
-// import { MobileSidebar } from "@/components/mobile-sidebar";
+import { MobileSidebar } from "@/components/mobile-sidebar";
 
-const Navbar = async () => {
+const Navbar = async ({}: {}) => {
   return (
     <div className="flex items-center p-4">
-      {/* <MobileSidebar  /> */}
+      <MobileSidebar />
       <div className="flex justify-end w-full">
         <UserButton afterSignOutUrl="/" />
       </div>
