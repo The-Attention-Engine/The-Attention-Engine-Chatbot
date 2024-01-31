@@ -127,6 +127,11 @@ export default function Chat() {
                 type="submit"
                 disabled={isLoading}
                 size="icon"
+                onSubmit={() => {
+                  if (input === "") {
+                    toast.error("Please enter a prompt.");
+                  }
+                }}
               >
                 Generate
               </Button>
