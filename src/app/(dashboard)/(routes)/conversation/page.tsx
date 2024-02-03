@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { MessageSquare } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { useChat } from "ai/react";
+import { FormEvent } from "react";
 
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
@@ -25,17 +26,21 @@ export default function Chat() {
   const router = useRouter();
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "api/conversation",
-    onError: (error) => {
-      onError(error);
-    },
   });
 
-  const onError = (error: Error) => {
-    if (error?.message === "Free trial has expired. Please upgrade to pro.") {
-      //   proModal.onOpen();
-      toast.error(error?.message);
-    } else {
-      toast.error("Something went wrong.");
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      handleSubmit(e);
+      form.reset();
+    } catch (error: any) {
+      console.log(error);
+      if (error?.message === "Free trial has expired. Please upgrade to pro.") {
+        // proModal.onOpen();
+      } else {
+        toast.error("Something went wrong.");
+      }
+    } finally {
+      router.refresh();
     }
   };
 
@@ -102,7 +107,7 @@ export default function Chat() {
         <div>
           <Form {...form}>
             <form
-              onSubmit={handleSubmit}
+              onSubmit={onSubmit}
               autoComplete="off"
               className="grid w-full grid-cols-12 gap-2 p-4 px-3 border rounded-lg md:px-6 focus-within:shadow-sm"
             >
