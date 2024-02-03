@@ -36,6 +36,8 @@ const CodePage = () => {
     if (error?.message === "Free trial has expired. Please upgrade to pro.") {
       //   proModal.onOpen();
       toast.error(error?.message);
+    } else if (error?.message === "Google Gemini API Key not configured.") {
+      toast.error(error?.message);
     } else {
       toast.error("Something went wrong.");
     }

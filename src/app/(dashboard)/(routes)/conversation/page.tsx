@@ -36,6 +36,8 @@ export default function Chat() {
       console.log(error);
       if (error?.message === "Free trial has expired. Please upgrade to pro.") {
         // proModal.onOpen();
+      } else if (error?.message === "Google Gemini API Key not configured.") {
+        // proModal.onOpen();
       } else {
         toast.error("Something went wrong.");
       }
