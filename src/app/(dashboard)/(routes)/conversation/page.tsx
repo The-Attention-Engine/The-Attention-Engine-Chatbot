@@ -19,11 +19,13 @@ import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/empty";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
 export default function Chat() {
   const router = useRouter();
+  const proModal = useProModal();
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "api/conversation",
   });
@@ -35,9 +37,8 @@ export default function Chat() {
     } catch (error: any) {
       console.log(error);
       if (error?.message === "Free trial has expired. Please upgrade to pro.") {
-        // proModal.onOpen();
+        proModal.onOpen();
       } else if (error?.message === "Google Gemini API Key not configured.") {
-        // proModal.onOpen();
       } else {
         toast.error("Something went wrong.");
       }
@@ -130,7 +131,7 @@ export default function Chat() {
                 )}
               />
               <Button
-                className="w-full col-span-12 lg:col-span-2"
+                className="w-full col-span-12 text-white lg:col-span-2"
                 type="submit"
                 disabled={isLoading}
                 size="icon"

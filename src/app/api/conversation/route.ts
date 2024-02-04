@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleGenerativeAIStream, Message, StreamingTextResponse } from "ai";
 
+import { checkSubscription } from "@/lib/subscription";
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 // export const runtime = "edge";
@@ -40,8 +41,9 @@ export async function POST(req: Request) {
     }
 
     const freeTrial = await checkApiLimit();
+    const isPro = await checkSubscription();
 
-    if (!freeTrial) {
+    if (!freeTrial && !isPro) {
       return new NextResponse(
         "Free trial has expired. Please upgrade to pro.",
         { status: 403 }
@@ -54,8 +56,9 @@ export async function POST(req: Request) {
 
     const stream = GoogleGenerativeAIStream(geminiStream);
 
-    await incrementApiLimit();
-
+    if (!isPro) {
+      await incrementApiLimit();
+    }
     return new StreamingTextResponse(stream);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });

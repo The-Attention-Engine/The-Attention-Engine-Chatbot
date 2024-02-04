@@ -15,8 +15,9 @@ import {
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { FreeCounter } from "@/components/free-counter";
 
-const poppins = Montserrat({ weight: "700", subsets: ["latin"] });
+const poppins = Montserrat({ weight: "600", subsets: ["latin"] });
 
 const routes = [
   {
@@ -62,7 +63,13 @@ const routes = [
   },
 ];
 
-const Sidebar = ({}: {}) => {
+export const Sidebar = ({
+  apiLimitCount = 0,
+  isPro = false,
+}: {
+  apiLimitCount: number;
+  isPro: boolean;
+}) => {
   const pathname = usePathname();
 
   return (
@@ -72,8 +79,8 @@ const Sidebar = ({}: {}) => {
           <div className="relative w-8 h-8 mr-4">
             <Image fill alt="Logo" src="/logo.png" />
           </div>
-          <h1 className={cn("font-bold", poppins.className)}>
-            The Attention Engine
+          <h1 className={cn("text-2xl font-bold", poppins.className)}>
+            Genius
           </h1>
         </Link>
         <div className="space-y-1">
@@ -96,8 +103,7 @@ const Sidebar = ({}: {}) => {
           ))}
         </div>
       </div>
+      <FreeCounter apiLimitCount={apiLimitCount} isPro={isPro} />
     </div>
   );
 };
-
-export default Sidebar;
