@@ -24,11 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
 
 const PhotoPage = () => {
-  //   const proModal = useProModal();
+  const proModal = useProModal();
   const router = useRouter();
   const [photos, setPhotos] = useState<string[]>([]);
 
@@ -54,7 +55,7 @@ const PhotoPage = () => {
       setPhotos(urls);
     } catch (error: any) {
       if (error?.response?.status === 403) {
-        // proModal.onOpen();
+        proModal.onOpen();
       } else {
         toast.error("Something went wrong.");
       }
@@ -148,7 +149,7 @@ const PhotoPage = () => {
               )}
             />
             <Button
-              className="w-full col-span-12 lg:col-span-2"
+              className="w-full col-span-12 text-white lg:col-span-2"
               type="submit"
               disabled={isLoading}
               size="icon"

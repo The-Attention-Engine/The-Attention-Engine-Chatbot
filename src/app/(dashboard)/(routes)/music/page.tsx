@@ -15,11 +15,13 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Loader } from "@/components/loader";
 import { Empty } from "@/components/empty";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
 const MusicPage = () => {
   const router = useRouter();
+  const proModal = useProModal();
   const [music, setMusic] = useState<string>();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,7 +44,7 @@ const MusicPage = () => {
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
-        // proModal.onOpen();
+        proModal.onOpen();
       } else {
         toast.error("Something went wrong.");
       }
@@ -64,7 +66,7 @@ const MusicPage = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid w-full grid-cols-12 gap-2 p-4 px-3 border rounded-lg  md:px-6 focus-within:shadow-sm"
+            className="grid w-full grid-cols-12 gap-2 p-4 px-3 border rounded-lg md:px-6 focus-within:shadow-sm"
           >
             <FormField
               name="prompt"
@@ -82,7 +84,7 @@ const MusicPage = () => {
               )}
             />
             <Button
-              className="w-full col-span-12 lg:col-span-2"
+              className="w-full col-span-12 text-white lg:col-span-2"
               type="submit"
               disabled={isLoading}
               size="icon"
