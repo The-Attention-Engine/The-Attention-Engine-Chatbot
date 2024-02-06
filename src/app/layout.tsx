@@ -23,18 +23,18 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <body className={font.className}>
+        <body className={font.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <ToasterProvider />
             <ModalProvider />
             {children}
-          </body>
-        </ThemeProvider>
+          </ThemeProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
