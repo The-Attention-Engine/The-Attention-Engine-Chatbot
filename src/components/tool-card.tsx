@@ -34,10 +34,10 @@ export const ToolCard = ({
   };
 
   return (
-    <Card onClick={onClick} className="group cursor-pointer">
+    <Card onClick={onClick} className="cursor-pointer group">
       <CardHeader>
-        <CardTitle className="text-lg font-bold flex items-center">
-          <div className="relative h-8 w-8 mr-2 group-hover:scale-125 transition duration-150">
+        <CardTitle className="flex items-center text-lg font-bold">
+          <div className="relative w-8 h-8 mr-2 transition duration-150 group-hover:scale-125">
             <Image alt="Icon" src={src} fill />
           </div>
           {title}
