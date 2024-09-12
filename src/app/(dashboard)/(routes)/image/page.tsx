@@ -49,18 +49,21 @@ const PhotoPage = () => {
       setPhotos([]);
 
       const response = await axios.post("/api/image", values);
+      console.log("response: ", response);
 
       const urls = response.data.map((image: { url: string }) => image.url);
+      console.log("url: ", urls);
 
       setPhotos(urls);
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
       } else {
+        console.log(error);
         toast.error("Something went wrong.");
       }
     } finally {
-      router.refresh();
+      // router.refresh();
     }
   };
 
@@ -163,9 +166,7 @@ const PhotoPage = () => {
             <Loader />
           </div>
         )}
-        {photos.length === 0 && !isLoading && (
-          <Empty label="No images generated." />
-        )}
+        {!isLoading && <Empty label="No images generated." />}
         <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {photos.map((src) => (
             <Card key={src} className="overflow-hidden rounded-lg">

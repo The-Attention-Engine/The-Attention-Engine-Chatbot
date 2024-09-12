@@ -14,6 +14,13 @@ import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
@@ -21,7 +28,7 @@ import { Empty } from "@/components/empty";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useProModal } from "@/hooks/use-pro-modal";
 
-import { formSchema } from "./constants";
+import { formSchema, modelOptions } from "./constants";
 
 export default function Chat() {
   const router = useRouter();
@@ -51,6 +58,7 @@ export default function Chat() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: "",
+      model: "gemini-pro",
     },
   });
 
@@ -130,6 +138,35 @@ export default function Chat() {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="model"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-10">
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {modelOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
               <Button
                 className="w-full col-span-12 text-white lg:col-span-2"
                 type="submit"

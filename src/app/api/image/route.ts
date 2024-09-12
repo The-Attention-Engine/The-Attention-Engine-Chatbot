@@ -53,10 +53,11 @@ export async function POST(req: Request) {
     if (!isPro) {
       await incrementApiLimit();
     }
+    console.log("response: ", response);
 
     return NextResponse.json(response);
   } catch (error) {
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse(`Internal Error ${error}`, { status: 500 });
   }
 }
 

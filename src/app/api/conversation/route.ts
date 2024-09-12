@@ -3,12 +3,20 @@ import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleGenerativeAIStream, Message, StreamingTextResponse } from "ai";
 
+import { HfInference } from "@huggingface/inference";
+import { HuggingFaceStream } from "ai";
+import { experimental_buildOpenAssistantPrompt } from "ai/prompts";
+
 import { checkSubscription } from "@/lib/subscription";
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 // export const runtime = "edge";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
+
+const Hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
+
+export const dynamic = "force-dynamic";
 
 const buildGoogleGenAIPrompt = (messages: Message[]) => ({
   contents: messages
@@ -24,7 +32,8 @@ const buildGoogleGenAIPrompt = (messages: Message[]) => ({
 export async function POST(req: Request) {
   try {
     const { userId } = auth();
-    const { messages } = await req.json();
+    const body = await req.json();
+    const { messages, model = "gemini-pro" } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -53,7 +62,6 @@ export async function POST(req: Request) {
     const geminiStream = await genAI
       .getGenerativeModel({ model: "gemini-pro" })
       .generateContentStream(buildGoogleGenAIPrompt(messages));
-
     const stream = GoogleGenerativeAIStream(geminiStream);
 
     if (!isPro) {

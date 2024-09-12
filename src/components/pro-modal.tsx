@@ -43,7 +43,7 @@ export const ProModal = () => {
         <DialogHeader>
           <DialogTitle className="flex flex-col items-center justify-center pb-2 gap-y-4">
             <div className="flex items-center text-xl font-bold gap-x-2">
-              Upgrade to Genius
+              Upgrade to The Attention Engine Pro
               <Badge variant="premium" className="py-1 text-sm uppercase">
                 pro
               </Badge>
